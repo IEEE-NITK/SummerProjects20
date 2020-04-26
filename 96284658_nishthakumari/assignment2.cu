@@ -20,10 +20,10 @@ __global__ void MatrixAdd(float *a, float *b, float *c, int M,int N) {
 
 int main(){
 
-  my_mat *A, *B, *C;
+  int *A, *B, *C;
   cout<<"Enter the number of row and column: ";
   cin>>M>>N;
-  size_t dsize = N*N*sizeof(float);
+  size_t dsize = M*N*sizeof(float);
   A = (float *)malloc(M*N*sizeof(float));
   B = (float *)malloc(M*N*sizeof(float));
   C = (float *)malloc(M*N*sizeof(float));

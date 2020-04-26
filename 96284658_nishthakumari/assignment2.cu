@@ -22,6 +22,7 @@ int main(){
 
   int *A, *B, *C;
   cout<<"Enter the number of row and column: ";
+   int M,N;
   cin>>M>>N;
   size_t dsize = M*N*sizeof(float);
   A = (float *)malloc(M*N*sizeof(float));

@@ -20,7 +20,7 @@ __global__ void MatrixAdd(float *a, float *b, float *c, int M,int N) {
 
 int main(){
 
-  int *A, *B, *C;
+  float *A, *B, *C;
   cout<<"Enter the number of row and column: ";
    int M,N;
   cin>>M>>N;

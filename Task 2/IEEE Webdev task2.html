@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Automotive Chunks</title>
+    <meta charset="UTF-8">
+    <meta name="creater and owner of the site" content="saurabh gole">
+    <meta name="viewport" content="width=device-width, index=1.0">
+    <meta title="automotive chunks" name="keywords" content="cars, customization, drifting, driving">
+    <meta name="description" content="learn about cars and how to build or customize them.">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+        
+        #main-header {
+            padding: 16px;
+            background-color: rgba(0, 0, 129, .5);
+            color: white;
+            font-size: 14vm;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .active {
+            background-color: mediumturquoise;
+            color: oldlace;
+        }
+        
+        .navbar {
+            float: initial;
+            background-color: rgb(71, 82, 71, .4);
+            overflow: hidden;
+        }
+        
+        .main-option,
+        .active {
+            float: left;
+            display: inline-block;
+            text-decoration: none;
+            list-style-type: none;
+            padding: 16px;
+            color: ivory;
+        }
+        
+        .srh {
+            float: right;
+            margin-top: 13px;
+        }
+        
+        .srh button:hover {
+            background-color: teal;
+        }
+        
+        .srh input[type=text]:hover {
+            background-color: darkslategray;
+        }
+        
+        .srh input[type=text] {
+            padding: 5px;
+            border: none;
+            opacity: .7;
+            color: white;
+        }
+        
+        .srh button {
+            text-align: center;
+            background-color: rgba(62, 183, 204, .4);
+            padding: 5px 9px;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            position: absolute;
+            top: 119px;
+            left: 30px;
+            display: none;
+            position: fixed;
+            background-color: rgba(255, 51, 255, 1.0);
+            z-index: 1;
+        }
+        
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: rgba(240, 230, 140, .7);
+        }
+        
+        div h1 {
+            padding: 10px;
+            color: gold;
+        }
+        
+        .column {
+            float: left;
+            width: 50%;
+            padding: 2px;
+        }
+        
+        .intro:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        .about {
+            padding: 10px;
+            color: rgb(4, 66, 4);
+            font-size: 22px;
+        }
+        
+        iframe {
+            border: none;
+            padding-top: 10px;
+            width: 100%;
+            height: 450px;
+        }
+        
+        @media screen and (max-width: 900px) {
+            body {
+                background-size: cover;
+            }
+            .main-option {
+                float: none;
+                width: 100%;
+            }
+            .dropdown-content {
+                margin-left: 100px;
+            }
+            .column {
+                width: 100%;
+                height: 80%;
+            }
+            .source-code a {
+                font-size: 3vw;
+                color: rgb(3, 90, 3);
+                text-decoration: none;
+            }
+            #main-footer {
+                z-index: -1;
+            }
+        }
+        
+        #main-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 7px;
+            font-size: 1.2vw;
+            background-color: red;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="main-header">
+        <h1>Automotive Chunks</h1>
+    </header>
+    <nav class="navbar">
+        <a class="active" href="Home">Home</a>
+        <div class="dropdown">
+            <a class="main-option" href="automotives">Automotives</a>
+            <div class="dropdown-content">
+                <a href="#">Toyota</a>
+                <a href="#">Mahindra</a>
+                <a href="#">Tata</a>
+                <a href="#">Maruti&Suzuki</a>
+                <a href="#">Honda</a>
+                <a href="#">Hyundai</a>
+                <a href="#">Renault</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="main-option" href="car parts">Car Parts</a>
+            <div class="dropdown-content">
+                <a href="#">Engine</a>
+                <a href="#">Transmission</a>
+                <a href="#">Gearbox</a>
+                <a href="#">Chasis</a>
+                <a href="#">Exteriors</a>
+                <a href="#">Interiors</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="main-option" href="car technology">Car Technology</a>
+            <div class="dropdown-content">
+                <a href="#">Sport Hybrid</a>
+                <a href="#">Hybrid Powertrain Technology</a>
+                <a href="#">Dual Axis Strut Suspension</a>
+                <a href="#">Noise Reduction Wheels</a>
+                <a href="#">CVT</a>
+                <a href="#">Real Time AWD</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="main-option" href="upcoming models">2020 Cars Release</a>
+            <div class="dropdown-content">
+                <a href="#">Skoda Karoq</a>
+                <a href="#">Audi e-tron</a>
+                <a href="#">Mahindra eKUV 100</a>
+                <a href="#">Mahindra XUV Aero</a>
+                <a href="#">Renault Arkana</a>
+                <a href="#">Force Gurkha</a>
+                <a href="#">Volkswagon Jetta</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="main-option" href="learning">Learn New Stuffs</a>
+            <div class="dropdown-content">
+                <a href="#">Learn Driving</a>
+                <a href="#">Driving Hacks</a>
+                <a href="#">Skidding</a>
+                <a href="#">Drifting</a>
+                <a href="#">Self Customization</a>
+            </div>
+        </div>
+        <div class="srh">
+            <form>
+                <input type="text" placeholder="search..." name="search"><button type="submit">submit</button>
+            </form>
+        </div>
+    </nav>
+    <div class="intro">
+        <div class="column">
+            <h1><strong>About</strong></h1>
+            <p class="about">This site is about cars and for car lovers. Here they can know the upcoming news about cars like any new car launch and the launch details and live link will be provided on the site on that day. Visitors can also check new car technologies
+                currently introduced which helps understanding of these technologies. Also we provide free online teaching about car technologies and car built and also teach driving tricks with some awesome driving styles like drifting, skidding etc.
+                Which you can master like proffesionals. Also the modification for your vehicle according to the required driving styles will be teached. And Guess what the most favorite of yours customization of cars will ve taught here for free. So
+                What are you waiting for, if your are the crazycar fan then tell this to your friends and start exploring your car or know better your car with us. And if you have any doubts you can contact us through contact links and also you can go
+                for practical sessions taught in our nearby workshops.</p>
+        </div>
+        <div class="column">
+            <iframe src="https://youtube.com/embed/_bkX5VkZg8U?playlist=_bkX5VkZg8U&loop=1" allowfullscreen="True"></iframe>
+        </div>
+    </div>
+    <footer id="main-footer">
+        <p>Automotive Chunks &copy; 2020, crazycarfan</p>
+    </footer>
+</body>
+
+</html>

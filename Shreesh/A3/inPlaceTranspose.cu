@@ -26,7 +26,6 @@
             }
         }
 
-
         //Host code
         void showArray(int* arr, int row, int col);
         void fillArray(int* arr, int row, int col);

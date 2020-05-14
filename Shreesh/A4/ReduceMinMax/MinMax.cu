@@ -22,7 +22,7 @@ __global__ void findMin(int* d_out, int* d_in, int size){
 	__syncthreads();
 
 	//parallel reduce in shared memory
-	for(unsigned int s = 1024/2; s > 0; s = s/2){
+	for(unsigned int s = blockDim.x/2; s > 0; s = s/2){
 		//make sure all local s are initialized 
 		__syncthreads();
 		if(abs_id >= size || abs_id+s >= size)
@@ -44,6 +44,8 @@ __global__ void findMin(int* d_out, int* d_in, int size){
 	__syncthreads();
 
 	if(t_id==0){
+		//d_out in global memory will be populated by first 
+		//element of each of sdata array associated to each block 
 		d_out[b_id] = sdata[t_id];
 	}
 }
@@ -64,7 +66,7 @@ __global__ void findMax(int* d_out, int* d_in, int size){
 	__syncthreads();
 
 	//parallel reduce in shared memory
-	for(unsigned int s = 1024/2; s > 0; s = s/2){
+	for(unsigned int s = blockDim.x/2; s > 0; s = s/2){
 		//make sure all local s are initialized 
 		__syncthreads();
 		if(abs_id >= size || abs_id+s >= size)

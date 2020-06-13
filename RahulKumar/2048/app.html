@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2048 React Game</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: black;
+        background: -webkit-linear-gradient(to left, #616a6b, #212f3c);
+        background: linear-gradient(to left, #616a6b, #212f3c);
+      }
+      .container {
+        text-align: center;
+        position: relative;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+      .container span {
+        color: white;
+        text-transform: uppercase;
+        display: block;
+      }
+      .text1 {
+        color: white;
+        font-size: 50px;
+        font-weight: 700;
+        letter-spacing: 8px;
+        margin-bottom: 2px;
+      }
+      .text2 {
+        font-size: 30px;
+        color: white;
+      }
+      .text3 {
+        font-size: 18px;
+        color: white;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 50px;
+      }
+      table {
+        margin: 0 auto;
+      }
+      .cell {
+        height: 100px;
+        width: 100px;
+        background-color: #92a86c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 2%;
+      }
+      .color-2 {
+        background-color: #50c8ff;
+      }
+
+      .color-4 {
+        background-color: green;
+      }
+
+      .color-8 {
+        background-color: red;
+      }
+
+      .color-16 {
+        background-color: orange;
+      }
+
+      .color-32 {
+        background-color: yellow;
+      }
+
+      .color-64 {
+        background-color: blue;
+      }
+
+      .color-128 {
+        background-color: purple;
+      }
+
+      .color-256 {
+        background-color: pink;
+      }
+
+      .color-512 {
+        background-color: #50c8ff;
+      }
+
+      .color-1024 {
+        background-color: green;
+      }
+
+      .color-2048 {
+        background-color: blue;
+      }
+      .number {
+        font-size: 40px;
+        color: whitesmoke;
+      }
+      p {
+        text-align: center;
+        font-size: 10px;
+        margin-top: 30px;
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <span class="text1">Welcome To</span>
+      <span class="text2">2048</span>
+      <span class="text3">(Use WSAD to play)</span>
+    </div>
+    <div id="mainApp"></div>
+    <p>Created by Rahul Kumar with a lot of Googling</p>
+
+    <script type="text/babel">
+      class Game extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            board: null,
+            score: 0,
+            isOver: false,
+            displayMessage: null,
+          };
+        }
+        //Creating an empty board 4*4 board
+        initBoard() {
+          let board = [
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+          ];
+          board = this.placeRandom(board);
+          this.setState({ board, score: 0, isOver: false, message: null });
+        }
+        //Getting a random start number for the board
+        randomStartNumber() {
+          const number = [2, 4];
+          const randomNumber =
+            number[Math.floor(Math.random() * number.length)];
+          return randomNumber;
+        }
+        //Getting all blank coordinates to spawn the random number
+        getBlankCoordinates(board) {
+          let blankCoordinates = [];
+          for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+              if (board[i][j] == 0) {
+                blankCoordinates.push([i, j]);
+              }
+            }
+          }
+          return blankCoordinates;
+        }
+        //Place either 2 or 4 on a random coordinate
+        placeRandom(board) {
+          const blankCoordinates = this.getBlankCoordinates(board);
+          const randomNumber = this.randomStartNumber();
+          const randomCoordinate =
+            blankCoordinates[
+              Math.floor(Math.random() * blankCoordinates.length)
+            ];
+          board[randomCoordinate[0]][randomCoordinate[1]] = randomNumber;
+          return board;
+        }
+        //defining different moves
+        up(board_input) {
+          let boardRotate = this.rightRotate(board_input);
+          let score = 0;
+          let board = [];
+
+          for (let i = 0; i < 4; i++) {
+            let row = [];
+            for (let j = 0; j < 4; j++) {
+              let value = boardRotate[i][j];
+              value === 0 ? row.unshift(value) : row.push(value);
+            }
+            board.push(row);
+          }
+
+          for (let i = 0; i < 4; i++) {
+            for (let j = 3; j >= 0; j--) {
+              if (board[i][j] > 0 && board[i][j] === board[i][j - 1]) {
+                board[i][j] *= 2;
+                board[i][j - 1] = 0;
+                score += board[i][j];
+              } else if (board[i][j] === 0 && board[i][j - 1] > 0) {
+                board[i][j] = board[i][j - 1];
+                board[i][j - 1] = 0;
+              }
+            }
+          }
+          board = this.leftRotate(board);
+          return { board, score };
+        }
+        down(board_input) {
+          let boardRotate = this.rightRotate(board_input);
+          let score = 0;
+          let board = [];
+
+          for (let i = 0; i < 4; i++) {
+            let row = [];
+            for (let j = 3; j >= 0; j--) {
+              let value = boardRotate[i][j];
+              value === 0 ? row.push(value) : row.unshift(value);
+            }
+            board.push(row);
+          }
+
+          for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+              if (board[i][j] > 0 && board[i][j] === board[i][j + 1]) {
+                board[i][j] *= 2;
+                board[i][j + 1] = 0;
+                score += board[i][j];
+              } else if (board[i][j] === 0 && board[i][j + 1] > 0) {
+                board[i][j] = board[i][j + 1];
+                board[i][j + 1] = 0;
+              }
+            }
+          }
+          board = this.leftRotate(board);
+          return { board, score };
+        }
+        right(board_input) {
+          let score = 0;
+          let board = [];
+          let size = board_input.length;
+
+          for (let i = 0; i < size; i++) {
+            let row = [];
+            for (let j = 0; j < size; j++) {
+              let value = board_input[i][j];
+              value === 0 ? row.unshift(value) : row.push(value);
+            }
+            board.push(row);
+          }
+
+          for (let i = 0; i < size; i++) {
+            for (let j = size - 1; j >= 0; j--) {
+              if (board[i][j] > 0 && board[i][j] === board[i][j - 1]) {
+                board[i][j] *= 2;
+                board[i][j - 1] = 0;
+                score += board[i][j];
+              } else if (board[i][j] === 0 && board[i][j - 1] > 0) {
+                board[i][j] = board[i][j - 1];
+                board[i][j - 1] = 0;
+              }
+            }
+          }
+          return { board, score };
+        }
+        left(board_input) {
+          let score = 0;
+          let board = [];
+
+          for (let i = 0; i < 4; i++) {
+            let row = [];
+            for (let j = 3; j >= 0; j--) {
+              let value = board_input[i][j];
+              value === 0 ? row.push(value) : row.unshift(value);
+            }
+            board.push(row);
+          }
+
+          for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+              if (board[i][j] > 0 && board[i][j] === board[i][j + 1]) {
+                board[i][j] *= 2;
+                board[i][j + 1] = 0;
+                score += board[i][j];
+              } else if (board[i][j] === 0 && board[i][j + 1] > 0) {
+                board[i][j] = board[i][j + 1];
+                board[i][j + 1] = 0;
+              }
+            }
+          }
+
+          return { board, score };
+        }
+
+        rightRotate(input) {
+          let final = [];
+          let size = input.length;
+          for (let i = 0; i < size; i++) {
+            let row = [];
+            for (let j = size - 1; j >= 0; j--) {
+              row.push(input[j][i]);
+            }
+            final.push(row);
+          }
+          return final;
+        }
+        leftRotate(input) {
+          let final = [];
+          let size = input.length;
+          for (let i = size - 1; i >= 0; i--) {
+            let row = [];
+            for (let j = 3; j >= 0; j--) {
+              row.unshift(input[j][i]);
+            }
+            final.push(row);
+          }
+          return final;
+        }
+        //now we need to change the board and check if the move is allowed
+        /*
+    GameOver function checks if we can move further and return boolean
+    updateBoard changes the board according to the direction entered by keyboard
+
+    */
+        didBoardChange(board1, board2) {
+          if (JSON.stringify(board1) !== JSON.stringify(board2)) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        isGameOver(boardInput) {
+          let moves = [
+            this.didBoardChange(boardInput, this.up(boardInput).board),
+            this.didBoardChange(boardInput, this.left(boardInput).board),
+            this.didBoardChange(boardInput, this.down(boardInput).board),
+            this.didBoardChange(boardInput, this.right(boardInput).board),
+          ];
+          if (moves.includes(true)) {
+            return false;
+          }
+          return true;
+        }
+        //using all this together to finally define the game
+        gameDefinition(move) {
+          if (this.state.isOver) {
+            this.setState({ displayMessage: 'Game Over! Start Again!' });
+          } else {
+            if (move === 'up') {
+              const upBoard = this.up(this.state.board);
+              if (this.didBoardChange(this.state.board, upBoard.board)) {
+                const upBoardrandom = this.placeRandom(upBoard.board);
+                if (this.isGameOver(upBoardrandom)) {
+                  this.setState({
+                    board: upBoardrandom,
+                    isOver: true,
+                    displayMessage: 'Game Over!Start Again!',
+                  });
+                } else {
+                  this.setState({
+                    board: upBoardrandom,
+                    score: (this.state.score += upBoard.score),
+                  });
+                }
+              }
+            } else if (move === 'down') {
+              const downBoard = this.down(this.state.board);
+              if (this.didBoardChange(this.state.board, downBoard.board)) {
+                const downBoardrandom = this.placeRandom(downBoard.board);
+                if (this.isGameOver(downBoardrandom)) {
+                  this.setState({
+                    board: downBoardrandom,
+                    isOver: true,
+                    displayMessage: 'Game Over!Start Again!',
+                  });
+                } else {
+                  this.setState({
+                    board: downBoardrandom,
+                    score: (this.state.score += downBoard.score),
+                  });
+                }
+              }
+            } else if (move === 'right') {
+              const rightBoard = this.right(this.state.board);
+              if (this.didBoardChange(this.state.board, rightBoard.board)) {
+                const rightBoardrandom = this.placeRandom(rightBoard.board);
+                if (this.isGameOver(rightBoardrandom)) {
+                  this.setState({
+                    board: rightBoardrandom,
+                    isOver: true,
+                    displayMessage: 'Game Over!Start Again!',
+                  });
+                } else {
+                  this.setState({
+                    board: rightBoardrandom,
+                    score: (this.state.score += rightBoard.score),
+                  });
+                }
+              }
+            } else {
+              const leftBoard = this.left(this.state.board);
+              if (this.didBoardChange(this.state.board, leftBoard.board)) {
+                const leftBoardrandom = this.placeRandom(leftBoard.board);
+                if (this.isGameOver(leftBoardrandom)) {
+                  this.setState({
+                    board: leftBoardrandom,
+                    isOver: true,
+                    displayMessage: 'Game Over!Start Again!',
+                  });
+                } else {
+                  this.setState({
+                    board: leftBoardrandom,
+                    score: (this.state.score += leftBoard.score),
+                  });
+                }
+              }
+            }
+          }
+        }
+
+        componentWillMount() {
+          this.initBoard();
+          const body = document.querySelector('body');
+          body.addEventListener('keydown', this.handleKeyDown.bind(this));
+        }
+        handleKeyDown(e) {
+          const up = 87;
+          const down = 83;
+          const left = 65;
+          const right = 68;
+          if (e.keyCode === up) {
+            this.gameDefinition('up');
+          } else if (e.keyCode === down) {
+            this.gameDefinition('down');
+          } else if (e.keyCode === right) {
+            this.gameDefinition('right');
+          } else if (e.keyCode === left) {
+            this.gameDefinition('left');
+          }
+        }
+        render() {
+          var buttonStyle = {
+            backgroundColor: '#303030',
+            color: '#72db9c',
+            height: '50px',
+            width: '200px',
+            borderRadius: '2px',
+            margin: '0 auto',
+            marginBottom: '25px',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: ' row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
+            transition: 'background-color 0.5s, color 0.5s',
+          };
+          var scoreStyle = {
+            textAlign: 'center',
+            marginBottom: '20px',
+            fontSize: '40px',
+          };
+          return (
+            <div>
+              <div
+                style={buttonStyle}
+                onClick={() => {
+                  this.initBoard();
+                }}
+              >
+                New Game
+              </div>
+
+              <div style={scoreStyle}>Score:{this.state.score}</div>
+              <table>
+                <tbody>
+                  {this.state.board.map((row, i) => (
+                    <Row key={i} row={row} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+      } //Game class ends here
+
+      const Row = ({ row }) => {
+        return (
+          <tr>
+            {row.map((cell, i) => (
+              <Cell key={i} cellValue={cell} />
+            ))}
+          </tr>
+        );
+      };
+      const Cell = ({ cellValue }) => {
+        let color = 'cell';
+        let value = cellValue === 0 ? '' : cellValue;
+        if (value) {
+          color += ` color-${value}`;
+        }
+        return (
+          <td>
+            <div className={color}>
+              <div className="number">{value}</div>
+            </div>
+          </td>
+        );
+      };
+
+      ReactDOM.render(<Game />, document.querySelector('#mainApp'));
+    </script>
+  </body>
+</html>

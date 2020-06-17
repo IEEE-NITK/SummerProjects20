@@ -361,8 +361,10 @@ class GameContainer extends React.Component {
             <div
               className="button"
               onClick={() => {
+                if (this.state.message !== null) {
+                  table.removeAttribute("class");
+                }
                 this.generateGrid();
-                table.removeAttribute("class");
               }}
             >
               New Game

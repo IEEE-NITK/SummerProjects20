@@ -1,0 +1,1 @@
+Terminal Chat App is a program which implements asymmetric encryption and decryption along with hashing under the hood simulation real world processes.
